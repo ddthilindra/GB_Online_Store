@@ -33,5 +33,13 @@ public class UserService {
 		String output = userObj.RegisterUser(username, email, password);
 		return output;
 	}
-		
+	
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String readAllUsers() {
+		return userObj.readAllUsers();
+	}	
+	
+	
 }

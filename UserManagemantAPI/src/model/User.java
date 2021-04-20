@@ -54,5 +54,46 @@ public class User {
 			System.err.println(e.getMessage());
 		}
 		return output;
-	}	
+	}
+	
+	public String readAllUsers() {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = "<table border='1'><tr><th>ID</th><th>Name</th>" + "<th>Email</th>"
+					+ "<th>Update</th><th>Remove</th></tr>";
+
+			String query = "select * from User";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String ID = Integer.toString(rs.getInt("Id"));
+				String name = rs.getString("Name");
+				String email = rs.getString("Email");
+				// Add into the html table
+				output += "<tr><td>" + ID + "</td>";
+				output += "<td>" + name + "</td>";
+				output += "<td>" + email + "</td>";
+				// buttons
+				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
+						+ "<td><form method='post' action='Item.jsp'>"
+						+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
+						+ "<input name='itemID' type='hidden' value='<itemData><itemID>" + ID + "</itemID></itemData>'>" + "</form></td></tr>";
+				
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the items.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+	
 }
