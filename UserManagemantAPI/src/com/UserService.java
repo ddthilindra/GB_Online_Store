@@ -40,6 +40,16 @@ public class UserService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String readAllUsers() {
 		return userObj.readAllUsers();
-	}	
+	}
+	
+	@PUT
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updateUser(@FormParam("Id") String uID,@FormParam("Name") String uName, @FormParam("Email") String uEmail,@FormParam("Password") String uPass) {
+		System.out.println("Api called");
+		String output = userObj.updateUser(uID, uName, uEmail, uPass);
+		return output;
+	}
 	
 }
