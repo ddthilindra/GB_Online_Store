@@ -18,7 +18,8 @@ public class User {
 		}
 		return con;
 	}
-
+	
+	// User registration method (POST)
 	public String RegisterUser(String uName, String uEmail, String uPass) {
 		String output = "";
 		try {
@@ -40,7 +41,7 @@ public class User {
 				String query2 = " INSERT INTO user (Id,Name,Email,Password)" + " VALUES (?, ?, ?, ?)";
 				PreparedStatement preparedStmt2 = con.prepareStatement(query2);
 				// binding values
-				//System.out.println(name + email + pass);
+				// System.out.println(name + email + pass);
 				preparedStmt2.setInt(1, 0);
 				preparedStmt2.setString(2, uName);
 				preparedStmt2.setString(3, uEmail);
@@ -58,6 +59,7 @@ public class User {
 		return output;
 	}
 
+	// Read all user information of the table (GET)
 	public String readAllUsers() {
 		String output = "";
 		try {
@@ -85,8 +87,7 @@ public class User {
 				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
 						+ "<td><form method='post' action='Item.jsp'>"
 						+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-						+ "<input name='itemID' type='hidden' value='" + ID + "'>"
-						+ "</form></td></tr>";
+						+ "<input name='itemID' type='hidden' value='" + ID + "'>" + "</form></td></tr>";
 
 			}
 			con.close();
@@ -99,6 +100,7 @@ public class User {
 		return output;
 	}
 
+	// Update user information (PUT)
 	public String updateUser(String id, String uName, String uEmail, String uPass) {
 		String output = "";
 		// System.out.println(ID + name + email + pass);
@@ -133,6 +135,7 @@ public class User {
 		return output;
 	}
 
+	// Delete user method (DELETE)
 	public String deleteUser(String id) {
 
 		String output = "";
@@ -161,4 +164,39 @@ public class User {
 		return output;
 	}
 
+	// This method use for user login. return user, id, name and email. 
+	// It can be use store the session variables. Before store we have split. 
+	public String[] LoginUser(String email, String pwd) {
+
+		String[] output = null;
+
+		try {
+			Connection con = connect();
+			// System.out.println("called"+email+pwd);
+			if (con == null) {
+				output[0] = "Error while connecting to the database for inserting.";
+			}
+			// create a prepared statement
+			String query = " select * from user where Email=? and Password=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			// binding values
+			preparedStmt.setString(1, email);
+			preparedStmt.setString(2, pwd);
+			// execute the statement
+			ResultSet rs = preparedStmt.executeQuery();
+			// System.out.println(output);
+			if (rs.next()) {
+				String[] strs = { rs.getString("Id"), rs.getString("Name"), rs.getString("Email") };
+				output = strs;
+			} else {
+				output = null;
+			}
+			con.close();
+
+		} catch (Exception e) {
+			output[0] = "Error while Login the item.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
 }

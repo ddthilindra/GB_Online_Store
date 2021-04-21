@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -24,6 +23,7 @@ public class UserService {
 
 	User userObj = new User();
 
+	// This API can use for add a new user information to DB
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -34,6 +34,7 @@ public class UserService {
 		return output;
 	}
 	
+	// This API can use for get the all information of users from DB
 	@GET
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -43,6 +44,7 @@ public class UserService {
 		return userObj.readAllUsers();
 	}
 	
+	// This API can use for update the all user information in DB
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -53,6 +55,7 @@ public class UserService {
 		return output;
 	}
 	
+	// This API can use for delete the all user information in DB
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -62,5 +65,23 @@ public class UserService {
 		//System.out.println(uID);
 		String output = userObj.deleteUser(id);		
 		return output;
+	}
+	
+	// This API can use for store user id, name and email to session variables
+	@POST
+	@Path("/login") 
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String LoginUser(@FormParam("Email") String email,@FormParam("Password") String password) {
+		System.out.println("Api called");
+		String[] output = userObj.LoginUser(email, password);
+		String sessionDetails="";
+		if(output!=null) {
+			sessionDetails=(output[0]+","+output[1]+","+output[2]);
+		}
+		else {
+			sessionDetails="Incorrect username or password..!";
+		}		
+		return sessionDetails;
 	}
 }
