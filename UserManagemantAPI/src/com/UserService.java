@@ -36,10 +36,10 @@ public class UserService {
 	
 	@GET
 	@Path("/")
-	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
 	public String readAllUsers() {
 		return userObj.readAllUsers();
 	}	
-	
 	
 }
