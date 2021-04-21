@@ -52,15 +52,4 @@ public class UserService {
 		String output = userObj.updateUser(uID, uName, uEmail, uPass);
 		return output;
 	}
-	
-	@DELETE
-	@Path("/")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteUser(@FormParam("Id") String uID) {
-		System.out.println("Api called");
-		String output = userObj.deleteUser(uID);
-		System.out.println(uID);
-		return output;
-	}
 }
