@@ -19,7 +19,7 @@ public class User {
 		return con;
 	}
 
-	public String RegisterUser(String name, String email, String pass) {
+	public String RegisterUser(String uName, String uEmail, String uPass) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -27,35 +27,37 @@ public class User {
 				return "Error while connecting to the database for inserting.";
 			}
 
-			PreparedStatement preparedStmt = con.prepareStatement("select email from user where email=?");
-			preparedStmt.setString(1, email);
+			String query = "SELECT email FROM user WHERE email=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, uEmail);
 			ResultSet rs = preparedStmt.executeQuery();
 
 			if (rs.next()) {
-				return "Email already exist..!";
+				return "This email address is already being used..!";
 			} else {
+
 				// create a prepared statement
-				String query = " insert into user (Id,Name,Email,Password)" + " values (?, ?, ?, ?)";
-				PreparedStatement preparedStmt2 = con.prepareStatement(query);
+				String query2 = " INSERT INTO user (Id,Name,Email,Password)" + " VALUES (?, ?, ?, ?)";
+				PreparedStatement preparedStmt2 = con.prepareStatement(query2);
 				// binding values
-				System.out.println(name + email + pass);
+				//System.out.println(name + email + pass);
 				preparedStmt2.setInt(1, 0);
-				preparedStmt2.setString(2, name);
-				preparedStmt2.setString(3, email);
-				preparedStmt2.setString(4, pass);
+				preparedStmt2.setString(2, uName);
+				preparedStmt2.setString(3, uEmail);
+				preparedStmt2.setString(4, uPass);
 				// execute the statement
 				preparedStmt2.execute();
 				con.close();
-				output = "Successfully Registered..!";
+				output = "User has been Successfully Registered..!";
 			}
 
 		} catch (Exception e) {
-			output = "Error while inserting the user.";
+			output = "Error while registering the user.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
-	
+
 	public String readAllUsers() {
 		String output = "";
 		try {
@@ -67,38 +69,39 @@ public class User {
 			output = "<table border='1'><tr><th>ID</th><th>Name</th>" + "<th>Email</th>"
 					+ "<th>Update</th><th>Remove</th></tr>";
 
-			String query = "select * from User";
+			String query = "SELECT * FROM User";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			// iterate through the rows in the result set
 			while (rs.next()) {
 				String ID = Integer.toString(rs.getInt("Id"));
-				String name = rs.getString("Name");
-				String email = rs.getString("Email");
+				String NAME = rs.getString("Name");
+				String EMAIL = rs.getString("Email");
 				// Add into the html table
 				output += "<tr><td>" + ID + "</td>";
-				output += "<td>" + name + "</td>";
-				output += "<td>" + email + "</td>";
+				output += "<td>" + NAME + "</td>";
+				output += "<td>" + EMAIL + "</td>";
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
 						+ "<td><form method='post' action='Item.jsp'>"
 						+ "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-						+ "<input name='itemID' type='hidden' value='<itemData><itemID>" + ID + "</itemID></itemData>'>" + "</form></td></tr>";
-				
+						+ "<input name='itemID' type='hidden' value='" + ID + "'>"
+						+ "</form></td></tr>";
+
 			}
 			con.close();
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the items.";
+			output = "Error while reading the users.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
-	
-	public String updateUser(String ID, String name, String email, String pass) {
+
+	public String updateUser(String id, String uName, String uEmail, String uPass) {
 		String output = "";
-		//System.out.println(ID + name + email + pass);
+		// System.out.println(ID + name + email + pass);
 		try {
 			Connection con = connect();
 			if (con == null) {
@@ -108,26 +111,54 @@ public class User {
 			String query = "UPDATE user SET Name=?,Email=?,Password=? WHERE Id=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, name);
-			preparedStmt.setString(2, email);
-			preparedStmt.setString(3, pass);
-			//System.out.println(name + email + pass);
-			preparedStmt.setInt(4, Integer.parseInt(ID));
+			preparedStmt.setString(1, uName);
+			preparedStmt.setString(2, uEmail);
+			preparedStmt.setString(3, uPass);
+			// System.out.println(name + email + pass);
+			preparedStmt.setInt(4, Integer.parseInt(id));
 			// execute the statement
 			int rs = preparedStmt.executeUpdate();
 
-			if (rs>0){
-				output = "User details updated successfully";
-			}
-			else {
-				output = "User details update Failed";
+			if (rs > 0) {
+				output = "User details has been updated successfully..!";
+			} else {
+				output = "User details update Failed..!";
 			}
 			con.close();
-			
+
 		} catch (Exception e) {
-			output = "Error while updating the item.";
+			output = "Error while updating the user.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
+
+	public String deleteUser(String id) {
+
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for deleting.";
+			}
+			// create a prepared statement
+			String query = "DELETE FROM user WHERE Id=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, id);
+			int rs = preparedStmt.executeUpdate();
+
+			if (rs > 0) {
+				output = "User has been deleted successfully";
+			} else {
+				output = "User delete Failed";
+			}
+			con.close();
+
+		} catch (Exception e) {
+			output = "Error while deleting the user.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
 }

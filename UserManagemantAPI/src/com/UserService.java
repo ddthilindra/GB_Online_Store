@@ -47,9 +47,20 @@ public class UserService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateUser(@FormParam("Id") String uID,@FormParam("Name") String uName, @FormParam("Email") String uEmail,@FormParam("Password") String uPass) {
-		System.out.println("Api called");
-		String output = userObj.updateUser(uID, uName, uEmail, uPass);
+	public String updateUser(@FormParam("Id") String id,@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Password") String password) {
+		//System.out.println("Api called");
+		String output = userObj.updateUser(id, username, email, password);
+		return output;
+	}
+	
+	@DELETE
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteUser(@FormParam("Id") String id) {
+		//System.out.println("Api called");
+		//System.out.println(uID);
+		String output = userObj.deleteUser(id);		
 		return output;
 	}
 }
