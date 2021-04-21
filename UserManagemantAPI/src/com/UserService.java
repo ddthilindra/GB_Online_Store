@@ -29,7 +29,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String RegisterUser(@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Password") String password) {
-		
+		//System.out.println("Api called");
 		String output = userObj.RegisterUser(username, email, password);
 		return output;
 	}
@@ -39,6 +39,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String readAllUsers() {
+		//System.out.println("Api called");
 		return userObj.readAllUsers();
 	}
 	
@@ -52,4 +53,14 @@ public class UserService {
 		return output;
 	}
 	
+	@DELETE
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteUser(@FormParam("Id") String uID) {
+		System.out.println("Api called");
+		String output = userObj.deleteUser(uID);
+		System.out.println(uID);
+		return output;
+	}
 }

@@ -114,14 +114,20 @@ public class User {
 			//System.out.println(name + email + pass);
 			preparedStmt.setInt(4, Integer.parseInt(ID));
 			// execute the statement
-			preparedStmt.execute();
+			int rs = preparedStmt.executeUpdate();
+
+			if (rs>0){
+				output = "User details updated successfully";
+			}
+			else {
+				output = "User details update Failed";
+			}
 			con.close();
-			output = "User details updated successfully";
+			
 		} catch (Exception e) {
 			output = "Error while updating the item.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
-	
 }
