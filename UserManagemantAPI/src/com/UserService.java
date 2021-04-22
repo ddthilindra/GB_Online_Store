@@ -28,9 +28,9 @@ public class UserService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String RegisterUser(@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Password") String password) {
+	public String RegisterUser(@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Address") String address,@FormParam("PhoneNo") String phoneno,@FormParam("Dob") String dob,@FormParam("Password") String password) {
 		//System.out.println("Api called");
-		String output = userObj.RegisterUser(username, email, password);
+		String output = userObj.RegisterUser(username, email,address,phoneno,dob, password);
 		return output;
 	}
 	
@@ -49,9 +49,9 @@ public class UserService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateUser(@FormParam("Id") String id,@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Password") String password) {
+	public String updateUser(@FormParam("Id") String id,@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Address") String address,@FormParam("PhoneNo") String phoneno,@FormParam("Dob") String dob,@FormParam("Password") String password) {
 		//System.out.println("Api called");
-		String output = userObj.updateUser(id, username, email, password);
+		String output = userObj.updateUser(id, username, email,address,phoneno,dob, password);
 		return output;
 	}
 	
@@ -74,7 +74,7 @@ public class UserService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String LoginUser(@FormParam("Email") String email,@FormParam("Password") String password) {
 		System.out.println("Api called");
-		String[] output = userObj.LoginUser(email, password);
+		String[] output = userObj.loginUser(email, password);
 		String sessionDetails="";
 		if(output!=null) {
 			sessionDetails=(output[0]+","+output[1]+","+output[2]);
@@ -83,5 +83,15 @@ public class UserService {
 			sessionDetails="Incorrect username or password..!";
 		}		
 		return sessionDetails;
+	}
+	
+	// This API can use for reset password of user
+	@PUT
+	@Path("/reset")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updateUser(@FormParam("Email") String email,@FormParam("Password") String password) {
+		String output = userObj.resetPassUser(email, password);
+		return output;
 	}
 }
