@@ -11,7 +11,7 @@
 
 	<%
 	UserService itemObj = new UserService();
-	out.print(itemObj.readAllUsers());
+	out.print(itemObj.readAllUsersS());
 	%>
 </body>
 </html>

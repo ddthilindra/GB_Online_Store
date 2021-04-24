@@ -1,5 +1,6 @@
 package com;
 
+import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -28,7 +29,7 @@ public class UserService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String RegisterUser(@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Address") String address,@FormParam("PhoneNo") String phoneno,@FormParam("Dob") String dob,@FormParam("Password") String password) {
+	public String registerUserS(@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Address") String address,@FormParam("PhoneNo") String phoneno,@FormParam("Dob") String dob,@FormParam("Password") String password) {
 		//System.out.println("Api called");
 		String output = userObj.RegisterUser(username, email,address,phoneno,dob, password);
 		return output;
@@ -39,7 +40,7 @@ public class UserService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String readAllUsers() {
+	public String readAllUsersS() {
 		//System.out.println("Api called");
 		return userObj.readAllUsers();
 	}
@@ -49,7 +50,7 @@ public class UserService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateUser(@FormParam("Id") String id,@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Address") String address,@FormParam("PhoneNo") String phoneno,@FormParam("Dob") String dob,@FormParam("Password") String password) {
+	public String updateUserS(@FormParam("Id") String id,@FormParam("Name") String username, @FormParam("Email") String email,@FormParam("Address") String address,@FormParam("PhoneNo") String phoneno,@FormParam("Dob") String dob,@FormParam("Password") String password) {
 		//System.out.println("Api called");
 		String output = userObj.updateUser(id, username, email,address,phoneno,dob, password);
 		return output;
@@ -72,7 +73,7 @@ public class UserService {
 	@Path("/login") 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String LoginUser(@FormParam("Email") String email,@FormParam("Password") String password) {
+	public String loginUserS(@FormParam("Email") String email,@FormParam("Password") String password) {
 		System.out.println("Api called");
 		String[] output = userObj.loginUser(email, password);
 		String sessionDetails="";
@@ -90,7 +91,7 @@ public class UserService {
 	@Path("/reset")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateUser(@FormParam("Email") String email,@FormParam("Password") String password) {
+	public String resetPassUserS(@FormParam("Email") String email,@FormParam("Password") String password) {
 		String output = userObj.resetPassUser(email, password);
 		return output;
 	}

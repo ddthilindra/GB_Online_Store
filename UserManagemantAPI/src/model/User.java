@@ -153,7 +153,7 @@ public class User {
 
 	// Delete user method (DELETE)
 	public String deleteUser(String id) {
-
+		System.out.println(id);
 		String output = "";
 		try {
 			Connection con = connect();
