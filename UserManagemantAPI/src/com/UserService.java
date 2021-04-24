@@ -33,8 +33,7 @@ public class UserService {
 		//System.out.println("Api called");
 		String output = userObj.RegisterUser(username, email,address,phoneno,dob, password);
 		return output;
-	}
-	
+	}	
 	
 	// This API can use for get the all information of users from DB
 	@GET
