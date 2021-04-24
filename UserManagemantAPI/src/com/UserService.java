@@ -35,6 +35,7 @@ public class UserService {
 		return output;
 	}
 	
+	
 	// This API can use for get the all information of users from DB
 	@GET
 	@Path("/")
