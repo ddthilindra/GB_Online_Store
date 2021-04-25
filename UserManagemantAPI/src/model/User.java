@@ -53,7 +53,7 @@ public class User {
 				// execute the statement
 				preparedStmt2.execute();
 				con.close();
-				output = "User has been Successfully Registered..!";
+				output = "<h2>User has been Successfully Registered..!</h2>";
 			}
 
 		} catch (Exception e) {
@@ -138,7 +138,7 @@ public class User {
 			int rs = preparedStmt.executeUpdate();
 
 			if (rs > 0) {
-				output = "User details has been updated successfully..!";
+				output = "<h2>User details has been updated successfully..!</h2>";
 			} else {
 				output = "User details update Failed..!";
 			}
@@ -167,7 +167,7 @@ public class User {
 			int rs = preparedStmt.executeUpdate();
 
 			if (rs > 0) {
-				output = "User has been deleted successfully";
+				output = "<h2>User has been deleted successfully</h2>";
 			} else {
 				output = "User delete Failed";
 			}
@@ -200,10 +200,20 @@ public class User {
 			preparedStmt.setString(2, pwd);
 			// execute the statement
 			ResultSet rs = preparedStmt.executeQuery();
-			// System.out.println(output);
+			
+			
+			//System.out.println(ROLE);
 			if (rs.next()) {
-				String[] strs = { rs.getString("Id"), rs.getString("Name"), rs.getString("Email") };
-				output = strs;
+				String ROLE = rs.getString("Role");
+				if(ROLE.equals("Customer")) {
+					String[] strs = { "You are Customer!<br>","(Set these varible to the session)<br>",rs.getString("Id"), rs.getString("Name"), rs.getString("Email") };
+					output = strs;
+				}
+				else {
+					String[] strs = { "You are Admin!<br>","(Set these varible to the session)<br>",rs.getString("Id"), rs.getString("Name"), rs.getString("Email") };
+					output = strs;
+				}
+				
 			} else {
 				output = null;
 			}
@@ -235,7 +245,7 @@ public class User {
 			int rs = preparedStmt.executeUpdate();
 
 			if (rs > 0) {
-				output = "User password has been changed successfully..!";
+				output = "<h2>User password has been changed successfully..!</h2>";
 			} else {
 				output = "User password update Failed..!";
 			}

@@ -78,7 +78,7 @@ public class UserService {
 		String[] output = userObj.loginUser(email, password);
 		String sessionDetails="";
 		if(output!=null) {
-			sessionDetails=(output[0]+","+output[1]+","+output[2]);
+			sessionDetails=("<h2>Successfully logged in..!</h2>"+"<br>"+output[0]+output[1]+output[2]+","+output[3]+","+output[4]);
 		}
 		else {
 			sessionDetails="Incorrect username or password..!";
